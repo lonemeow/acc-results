@@ -1,4 +1,4 @@
-# Assetto Corsa Compentizione results parser
+# Assetto Corsa Competizione results parser
 
 Parses ACC results JSON files and prints best valid lap times.
 
