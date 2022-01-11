@@ -2,6 +2,10 @@
 
 Parses ACC results JSON files and prints best valid lap times.
 
+## Requirements
+
+Python 3.x - no extra libraries needed.
+
 ## Usage
 
 ```
