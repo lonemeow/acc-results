@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import csv
 import sys
 import json
 
@@ -66,6 +67,7 @@ key_funcs = {
 argparser = ArgumentParser()
 argparser.add_argument('--by', choices=key_funcs.keys(), default='car_driver')
 argparser.add_argument('--sectors', action='store_true')
+argparser.add_argument('--csv')
 argparser.add_argument('file', nargs='+')
 
 args = argparser.parse_args(sys.argv[1:])
@@ -102,6 +104,12 @@ def format_time(t):
   else:
     return f'{s:02}:{ms:03}'
 
+def format_time_csv(t):
+  m = int(t / 60)
+  s = int(t % 60)
+  ms = int((t * 1000) % 1000)
+  return f'00:{m:02}:{s:02}.{ms:03}'
+
 for l in driver_car_laps.values():
   laptime = format_time(l.laptime)
   s = f'{l.driver:30} {l.car:25} {laptime}'
@@ -109,3 +117,9 @@ for l in driver_car_laps.values():
     splits = '  '.join((format_time(s) for s in l.splits))
     s += '      ' + splits
   print(s)
+
+if args.csv:
+  with open(args.csv, 'w') as f:
+    writer = csv.writer(f)
+    for l in driver_car_laps.values():
+      writer.writerow((l.driver, l.car, format_time_csv(l.laptime)))
